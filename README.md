@@ -1,5 +1,17 @@
-# Faça um fork desse repositório
+# Desafio 1 - Jornada Dev+Eficiente - Novembro/24
 
-Este é um repositório vazio de propósito. A ideia é que você faça um fork para que eu, Alberto, possa usar o github para ter a chance de olhar vários dos códigos produzido por você e seus(as) colegas da Jornada Dev Eficiente :). 
+## Demanda
+Crie um sistema em que seja possível cadastrar um novo autor.
 
-Durante cada uma das seis semanas eu vou pegar código por amostragem e analisar. Feito isso, vou criar um vídeo anonimizando a pessoa que é dona do código, com as minhas observações e postar isso como material de suporte da funcionalidade :). 
+## Requisitos
+* Todo autor tem um nome, e-mail e uma descrição.
+* Data completa de criação.
+
+## Restrições
+* Data de criação não opde ser nula.
+* Nome é obrigatório.
+* E-mail é obrigatório e deve ter um formato válido.
+* Descrição é obrigatória e tem um limite de 400 caracteres.
+
+## Resultado
+* O novo autor criado sob o status 200.
