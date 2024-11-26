@@ -8,7 +8,7 @@ Crie um sistema em que seja possível cadastrar um novo autor.
 * Data completa de criação.
 
 ## Restrições
-* Data de criação não opde ser nula.
+* Data de criação não pode ser nula.
 * Nome é obrigatório.
 * E-mail é obrigatório e deve ter um formato válido.
 * Descrição é obrigatória e tem um limite de 400 caracteres.
