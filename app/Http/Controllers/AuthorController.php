@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\UseCase\AuthorRequestDTO;
+use App\Core\UseCase\CreateNewAuthor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,15 @@ class AuthorController extends Controller
             ]
         );
 
-        $name = $request->input('name');
+        $authorDTO = new AuthorRequestDTO(
+            $validatedRequest['name'],
+            $validatedRequest['email'],
+            $validatedRequest['description']
+        );
+
+        $authorUseCase = new CreateNewAuthor();
+        $result = $authorUseCase->execute($authorDTO);
+
 
         return response()->json($validatedRequest);
     }
