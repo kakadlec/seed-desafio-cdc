@@ -30,7 +30,7 @@ class Author
 
     public function toArray(): array
     {
-        return [$this->name, $this->email, $this->description, $this->createdAt];
+        return ["name" => $this->name, "email" => $this->email, "description" => $this->description, "created_at" => $this->createdAt];
     }
 
     /**
@@ -42,7 +42,7 @@ class Author
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'description' => 'required|string|max:400',
-            'createdAt' => 'required|datetime',
+            'created_at' => 'required|date',
         ])->validate();
     }
 }
