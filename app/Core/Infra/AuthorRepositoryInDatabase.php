@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class AuthorRepositoryInDatabase implements AuthorRepository
 {
+    public const TABLE_NAME = 'author';
+
     public function store(Author $data): void
     {
-        DB::table('author')->insert($data->toArray());
+        DB::table(self::TABLE_NAME)->insert($data->toArray());
     }
 }
