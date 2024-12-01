@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Domain\Author;
 use App\Core\Infra\AuthorRepositoryInDatabase;
-use App\Core\UseCase\AuthorRequestDTO;
-use App\Core\UseCase\CreateNewAuthor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class AuthorController extends Controller
 {
-    /**
-     * @throws ValidationException
-     */
     public function store(Request $request): JsonResponse
     {
         $validatedRequest = $request->validate([
@@ -23,16 +18,19 @@ class AuthorController extends Controller
             ]
         );
 
-        $authorDTO = new AuthorRequestDTO(
+        //1 ICP - Acoplamento contextual
+        $author = new Author(
             $validatedRequest['name'],
             $validatedRequest['email'],
             $validatedRequest['description']
         );
 
-        $authorUseCase = new CreateNewAuthor(new AuthorRepositoryInDatabase());
-        $authorUseCase->execute($authorDTO);
+        //1 ICP - Acoplamento Contextual
+        $repository = new AuthorRepositoryInDatabase();
+        $id = $repository->store($author);
 
+        $author->setId($id);
 
-        return response()->json($validatedRequest);
+        return response()->json($author->toArray());
     }
 }

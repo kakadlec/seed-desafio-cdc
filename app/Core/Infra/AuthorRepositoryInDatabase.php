@@ -11,8 +11,8 @@ class AuthorRepositoryInDatabase implements AuthorRepository
 {
     public const TABLE_NAME = 'author';
 
-    public function store(Author $data): void
+    public function store(Author $data): int
     {
-        DB::table(self::TABLE_NAME)->insert($data->toArray());
+        return DB::table(self::TABLE_NAME)->insertGetId($data->toArray());
     }
 }

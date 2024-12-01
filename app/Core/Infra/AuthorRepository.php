@@ -6,5 +6,5 @@ use App\Core\Domain\Author;
 
 interface AuthorRepository
 {
-    public function store(Author $data): void;
+    public function store(Author $data): int;
 }
