@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Core\Domain\Author;
 use App\Core\Infra\AuthorRepositoryInDatabase;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -14,7 +13,7 @@ class AuthorController extends Controller
     {
         $validatedRequest = $request->validate([
                 'name' => 'required|string',
-                'email' => 'required|email|string',
+                'email' => 'required|email|string|unique:author,email',
                 'description' => 'required|string|max:400',
             ]
         );
@@ -29,15 +28,9 @@ class AuthorController extends Controller
         //1 ICP - Acoplamento Contextual
         $repository = new AuthorRepositoryInDatabase();
 
-        //1 ICP - Bloco de código
-        try {
-            $id = $repository->store($author);
-            $author->setId($id);
+        $id = $repository->store($author);
+        $author->setId($id);
 
-            return response()->json($author->toArray());
-            //1 ICP - Bloco de código
-        } catch (UniqueConstraintViolationException) {
-            return response()->json(['erro' => 'Email ja cadastrado'], 409 );
-        }
+        return response()->json($author->toArray());
     }
 }

@@ -63,7 +63,10 @@ class CreateNewAuthorTest extends TestCase
 
         $response = $this->postJson('api/author', $payload);
 
-        $this->assertSame(409, $response->status());
-        $this->assertSame('{"erro":"Email ja cadastrado"}', $response->getContent());
+        $this->assertSame(422, $response->status());
+        $this->assertSame(
+            '{"message":"The email has already been taken.","errors":{"email":["The email has already been taken."]}}',
+            $response->getContent()
+        );
     }
 }
