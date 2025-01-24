@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Core\Domain\Book;
+use App\Core\Infra\AuthorRepositoryInDatabase;
+use App\Core\Infra\BookRepositoryInDatabase;
+use App\Core\Infra\CategoryRepositoryInDatabase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -12,28 +16,36 @@ class BookController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validatedRequest = $request->validate([
-                'author' => 'required',
-                'category' => 'required',
-                'title' => 'required|string|unique',
-                'summary' => 'required|string|max:500',
-                '$abstract' => 'string',
-                '$price' => 'decimal|min:20',
+                'author' => 'string|required',
+                'category' => 'string|required',
+                'title' => 'string|required|unique:book',
+                'summary' => 'string|required|max:500',
+                'abstract' => 'string',
+                'price' => 'numeric|decimal:2|min:20',
                 'totalPages' => 'integer|min:100',
-                'bookIdentifier' => 'string|unique',
+                'bookIdentifier' => 'string|unique:book,book_identifier',
                 'pubDate' => 'date_format:Y-m-d|after:now',
             ]
         );
 
+        $author = new AuthorRepositoryInDatabase()->findByName($validatedRequest['author']);
+        $category = new CategoryRepositoryInDatabase()->findByName($validatedRequest['category']);
+
         $book = new Book(
-            $validatedRequest['author'],
-            $validatedRequest['category'],
+            $author,
+            $category,
             $validatedRequest['title'],
             $validatedRequest['summary'],
-            $validatedRequest['$abstract'],
-            $validatedRequest['$price'],
-            $validatedRequest['totalPages'],
+            $validatedRequest['abstract'],
+            (float) $validatedRequest['price'],
+            (int) $validatedRequest['totalPages'],
             $validatedRequest['bookIdentifier'],
-            $validatedRequest['pubDate']
+            new \DateTimeImmutable($validatedRequest['pubDate'])
         );
+
+        $id = new BookRepositoryInDatabase()->store($book);
+        $book->setId($id);
+
+        return response()->json($book->toArray());
     }
 }

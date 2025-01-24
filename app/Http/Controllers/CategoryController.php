@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $repository = new CategoryRepositoryInDatabase();
 
         $id = $repository->store($category);
-        $category->setId($id);
+        $category->id = $id;
 
         return response()->json($category->toArray());
     }

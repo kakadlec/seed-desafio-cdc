@@ -22,7 +22,7 @@ class CreateNewBookTest extends TestCase
         $email = 'full.name@test.com';
         $description = 'A description';
         $authorRepository = new AuthorRepositoryInDatabase();
-        $author = new Author($name, $email, $description);
+        $author = new AuthorRepositoryInDatabase($name, $email, $description);
         $authorRepository->store($author);
 
         $category_name = 'Category 1';
