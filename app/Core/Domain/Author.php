@@ -27,7 +27,7 @@ class Author
     public function toArray(): array
     {
         return [
-            'id' => $this->id ?? null,
+            "id" => $this->id ?? null,
             "name" => $this->name,
             "email" => $this->email,
             "description" => $this->description,
