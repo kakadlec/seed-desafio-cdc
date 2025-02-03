@@ -48,4 +48,20 @@ class BookController extends Controller
 
         return response()->json($book->toArray());
     }
+
+    public function retrieveById(int $id): JsonResponse
+    {
+        $book = new BookRepositoryInDatabase()->retrieveOne($id);
+
+        if (!$book) {
+            return response()->json('Book not found', 404);
+        }
+
+        return response()->json($book->toArray());
+    }
+
+    public function retrieve(): JsonResponse
+    {
+        return response()->json(new BookRepositoryInDatabase()->retrieve());
+    }
 }

@@ -6,17 +6,12 @@ namespace App\Core\Domain;
 
 class Category
 {
-    public int $id {
-        set {
-            $this->id = $value;
-        }
-    }
+    private int $id;
 
     public static function createWithId(
         int $id,
         string $name
-    ): self
-    {
+    ): self {
         $category = new self($name);
         $category->id = $id;
 
@@ -25,6 +20,11 @@ class Category
 
     public function __construct(private readonly string $name)
     {
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function toArray(): array

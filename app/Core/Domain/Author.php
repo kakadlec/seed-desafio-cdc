@@ -15,11 +15,13 @@ class Author
         int $id,
         string $name,
         string $email,
-        string $description
+        string $description,
+        \DateTimeImmutable $createdAt
     ): self
     {
         $author = new self($name, $email, $description);
         $author->id = $id;
+        $author->createdAt = $createdAt;
 
         return $author;
     }

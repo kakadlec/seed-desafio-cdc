@@ -13,3 +13,5 @@ Route::get('/user', function (Request $request) {
 Route::post('/author', [AuthorController::class, 'store']);
 Route::post('/category', [CategoryController::class, 'store']);
 Route::post('/book', [BookController::class, 'store']);
+Route::get('/book/{id}', [BookController::class, 'retrieveById']);
+Route::get('/books', [BookController::class, 'retrieve']);

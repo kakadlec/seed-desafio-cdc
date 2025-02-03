@@ -17,7 +17,7 @@ class CreateNewAuthorTest extends TestCase
 
     public function testCreateNewAuthor(): void
     {
-        $authorRepository = new Author();
+        $authorRepository = new AuthorRepositoryInDatabase();
 
         $name = 'Full Name';
         $email = 'full.name@test.com';
@@ -28,14 +28,14 @@ class CreateNewAuthorTest extends TestCase
 
         $this->assertIsInt($id);
         $this->assertDatabaseHas(
-            Author::TABLE_NAME,
+            $authorRepository::TABLE_NAME,
             ['name' => $name, 'email' => $email, 'description' => $description]
         );
     }
 
     public function testEmailShouldBeUnique(): void
     {
-        $authorRepository = new Author();
+        $authorRepository = new AuthorRepositoryInDatabase();
 
         $name = 'Full Name';
         $email = 'full.name@test.com';
@@ -50,7 +50,7 @@ class CreateNewAuthorTest extends TestCase
 
     public function testOnDuplicatedEmailShouldFailGracefully(): void
     {
-        $authorRepository = new Author();
+        $authorRepository = new AuthorRepositoryInDatabase();
 
         $payload = [
             'name' => 'Full Name',
