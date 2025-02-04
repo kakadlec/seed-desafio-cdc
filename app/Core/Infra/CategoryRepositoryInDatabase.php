@@ -16,6 +16,22 @@ class CategoryRepositoryInDatabase
         return DB::table(self::TABLE_NAME)->insertGetId($data->toArray());
     }
 
+    public function findById(int $id): Category|null
+    {
+        $record = DB::table(self::TABLE_NAME)
+            ->where('id', $id)
+            ->first();
+
+        if (!$record) {
+            return null;
+        }
+
+        return Category::createWithId(
+            id: $record->id,
+            name: $record->name
+        );
+    }
+
     public function findByName(string $name): Category|null
     {
         $record = DB::table(self::TABLE_NAME)
