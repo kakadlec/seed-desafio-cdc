@@ -27,8 +27,8 @@ class BookRepositoryInDatabase
            return null;
         }
 
-        $author = new AuthorRepositoryInDatabase()->findById($result->author);
-        $category = new CategoryRepositoryInDatabase()->findById($result->category);
+        $author = new AuthorRepositoryInDatabase()->findById($result->author_id);
+        $category = new CategoryRepositoryInDatabase()->findById($result->category_id);
 
         $book = new Book(
             $author,

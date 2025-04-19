@@ -12,7 +12,7 @@ class BookApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCreateBookEndpointReturnsSuccessfulResponse()
+    public function testCreateBookEndpointReturnsSuccessfulResponse(): void
     {
         $author = Author::factory()->create();
         $category = Category::factory()->create();
@@ -32,7 +32,7 @@ class BookApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testRetrieveBookByIdEndpointReturnsSuccessfulResponse()
+    public function testRetrieveBookByIdEndpointReturnsSuccessfulResponse(): void
     {
         $book = Book::factory()->create();
         $response = $this->getJson("/api/book/$book->id");
@@ -40,7 +40,7 @@ class BookApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_retrieve_books_endpoint_returns_successful_response()
+    public function test_retrieve_books_endpoint_returns_successful_response(): void
     {
         $response = $this->getJson('/api/books');
 

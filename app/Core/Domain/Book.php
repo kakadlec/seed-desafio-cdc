@@ -6,18 +6,18 @@ namespace App\Core\Domain;
 
 class Book
 {
-    private int $id;
+    public int $id;
 
     public function __construct(
-        private readonly Author $author,
-        private readonly Category $category,
-        private readonly string $title,
-        private readonly string $summary,
-        private readonly string $abstract,
-        private readonly float $price,
-        private readonly int $totalPages,
-        private readonly string $bookIdentifier,
-        private readonly \DateTimeImmutable $publicationDate,
+        public readonly Author $author,
+        public readonly Category $category,
+        public readonly string $title,
+        public readonly string $summary,
+        public readonly string $abstract,
+        public readonly float $price,
+        public readonly int $totalPages,
+        public readonly string $bookIdentifier,
+        public readonly \DateTimeImmutable $publicationDate,
     )
     {
     }
@@ -31,8 +31,8 @@ class Book
     {
         return [
             "id" => $this->id ?? null,
-            "author" => $this->author->getId(),
-            "category" => $this->category->getId(),
+            "author_id" => $this->author->getId(),
+            "category_id" => $this->category->getId(),
             "title" => $this->title,
             "summary" => $this->summary,
             "abstract" => $this->abstract,

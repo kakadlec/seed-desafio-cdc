@@ -27,9 +27,9 @@ class Author
     }
 
     public function __construct(
-        private readonly string $name,
-        private readonly string $email,
-        private readonly string $description
+        public readonly string $name,
+        public readonly string $email,
+        public readonly string $description
     ) {
         $this->createdAt  = new DateTimeImmutable();
     }

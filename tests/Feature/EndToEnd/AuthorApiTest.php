@@ -9,7 +9,7 @@ class AuthorApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCreateAuthorEndpointReturnsSuccessfulResponse()
+    public function testCreateAuthorEndpointReturnsSuccessfulResponse(): void
     {
         $response = $this->postJson('/api/author', [
             'name' => 'Author Name',

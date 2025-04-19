@@ -6,15 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('book', function (Blueprint $table) {
             $table->id();
-            $table->integer('author');
-            $table->integer('category');
+            $table->foreignId('author_id')->constrained('author')->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained('category')->cascadeOnDelete();
             $table->string('title')->unique();
             $table->string('summary', 500);
             $table->text('abstract');
@@ -26,20 +23,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     *
-     * 'author' => 'required',
-     * 'category' => 'required',
-     * 'title' => 'required|string|unique',
-     * 'summary' => 'required|string|max:500',
-     * '$abstract' => 'string',
-     * '$price' => 'integer|min:20',
-     * 'totalPages' => 'integer|min:100',
-     * 'bookIdentifier' => 'string|unique',
-     * 'pubDate' => 'date_format:Y-m-d|after:now',
-     *
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('book');

@@ -9,7 +9,7 @@ class CategoryApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_create_category_endpoint_returns_successful_response()
+    public function testCreateCategoryEndpointReturnsSuccessfulResponse(): void
     {
         $response = $this->postJson('/api/category', [
             'name' => 'Category Name'

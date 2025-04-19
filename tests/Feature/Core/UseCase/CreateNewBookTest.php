@@ -50,8 +50,8 @@ class CreateNewBookTest extends TestCase
         $this->assertDatabaseHas(
             BookRepositoryInDatabase::TABLE_NAME,
             [
-                'author' => $author->getId(),
-                'category' => $category->getId(),
+                'author_id' => $author->getId(),
+                'category_id' => $category->getId(),
                 'title' => $title,
                 'summary' => $summary,
                 'abstract' => $abstract
