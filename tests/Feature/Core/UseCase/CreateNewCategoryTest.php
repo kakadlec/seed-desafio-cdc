@@ -6,13 +6,10 @@ namespace Feature\Core\UseCase;
 
 use App\Core\Domain\Category;
 use App\Core\Infra\CategoryRepositoryInDatabase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TestCaseWithRefreshDatabase;
 
-class CreateNewCategoryTest extends TestCase
+class CreateNewCategoryTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testCreateNewCategory(): void
     {
         $payload = ['name' => 'Category 1'];

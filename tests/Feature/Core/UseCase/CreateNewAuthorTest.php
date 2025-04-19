@@ -7,14 +7,11 @@ namespace Feature\Core\UseCase;
 use App\Core\Domain\Author;
 use App\Core\Infra\AuthorRepositoryInDatabase;
 use Illuminate\Database\UniqueConstraintViolationException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TestCaseWithRefreshDatabase;
 
 
-class CreateNewAuthorTest extends TestCase
+class CreateNewAuthorTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testCreateNewAuthor(): void
     {
         $authorRepository = new AuthorRepositoryInDatabase();

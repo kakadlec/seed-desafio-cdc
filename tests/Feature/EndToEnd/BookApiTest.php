@@ -3,15 +3,12 @@
 namespace Tests\Feature\EndToEnd;
 
 use App\Models\Book;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\Author;
 use App\Models\Category;
+use Tests\TestCaseWithRefreshDatabase;
 
-class BookApiTest extends TestCase
+class BookApiTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testCreateBookEndpointReturnsSuccessfulResponse(): void
     {
         $author = Author::factory()->create();

@@ -10,14 +10,11 @@ use App\Core\Domain\Category;
 use App\Core\Infra\AuthorRepositoryInDatabase;
 use App\Core\Infra\BookRepositoryInDatabase;
 use App\Core\Infra\CategoryRepositoryInDatabase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TestCaseWithRefreshDatabase;
 
 
-class CreateNewBookTest extends TestCase
+class CreateNewBookTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testCreateNewBook(): void
     {
         $name = 'Full Name';

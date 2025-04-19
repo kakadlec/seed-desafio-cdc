@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\EndToEnd;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TestCaseWithRefreshDatabase;
 
-class CategoryApiTest extends TestCase
+class CategoryApiTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testCreateCategoryEndpointReturnsSuccessfulResponse(): void
     {
         $response = $this->postJson('/api/category', [

@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\EndToEnd;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TestCaseWithRefreshDatabase;
 
-class AuthorApiTest extends TestCase
+class AuthorApiTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testCreateAuthorEndpointReturnsSuccessfulResponse(): void
     {
         $response = $this->postJson('/api/author', [

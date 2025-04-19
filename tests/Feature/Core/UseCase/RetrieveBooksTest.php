@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Feature\Core\UseCase;
 
 use App\Models\Book;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TestCaseWithRefreshDatabase;
 
-class RetrieveBooksTest extends TestCase
+class RetrieveBooksTest extends TestCaseWithRefreshDatabase
 {
-    use RefreshDatabase;
-
     public function testApiBooks(): void
     {
         Book::factory(2)->create();
