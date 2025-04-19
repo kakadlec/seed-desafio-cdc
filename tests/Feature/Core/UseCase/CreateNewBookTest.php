@@ -28,7 +28,6 @@ class CreateNewBookTest extends TestCase
         $authorId = $authorRepository->store($author);
         $author->setId($authorId);
 
-
         $category_name = 'Category 1';
         $categoryRepository = new CategoryRepositoryInDatabase();
         $category = new Category($category_name);

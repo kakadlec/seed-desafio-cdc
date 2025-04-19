@@ -50,7 +50,7 @@ class AuthorRepositoryInDatabase
             name: $record->name,
             email: $record->email,
             description: $record->description,
-            createdAt: $record->created_at,
+            createdAt: \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $record->created_at),
         );
     }
 }

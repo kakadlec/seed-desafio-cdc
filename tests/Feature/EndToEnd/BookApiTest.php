@@ -2,25 +2,40 @@
 
 namespace Tests\Feature\EndToEnd;
 
+use App\Models\Book;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Author;
+use App\Models\Category;
 
 class BookApiTest extends TestCase
 {
-    public function test_create_book_endpoint_returns_successful_response()
+    use RefreshDatabase;
+
+    public function testCreateBookEndpointReturnsSuccessfulResponse()
     {
+        $author = Author::factory()->create();
+        $category = Category::factory()->create();
+
         $response = $this->postJson('/api/book', [
+            'author' => $author->name,
+            'category' => $category->name,
+            'summary' => 'A brief summary of the book.',
+            'abstract' => 'Some abstract',
             'title' => 'Book Title',
-            'author_id' => 1,
-            'category_id' => 1,
-            'price' => 19.99
+            'price' => 20.01,
+            'totalPages' => 350,
+            'bookIdentifier' => 'book-identifier',
+            'pubDate' => '2025-10-01',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 
-    public function test_retrieve_book_by_id_endpoint_returns_successful_response()
+    public function testRetrieveBookByIdEndpointReturnsSuccessfulResponse()
     {
-        $response = $this->getJson('/api/book/1');
+        $book = Book::factory()->create();
+        $response = $this->getJson("/api/book/$book->id");
 
         $response->assertStatus(200);
     }

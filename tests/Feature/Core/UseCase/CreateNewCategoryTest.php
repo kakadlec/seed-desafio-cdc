@@ -18,7 +18,6 @@ class CreateNewCategoryTest extends TestCase
         $payload = ['name' => 'Category 1'];
 
         $response = $this->postJson('api/category', $payload);
-        var_dump($response->getContent());
         $this->assertSame(200, $response->status());
         $this->assertSame(
             '{"id":2,"name":"Category 1"}',

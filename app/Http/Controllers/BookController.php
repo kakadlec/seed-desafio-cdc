@@ -20,7 +20,7 @@ class BookController extends Controller
                 'category' => 'string|required',
                 'title' => 'string|required|unique:book',
                 'summary' => 'string|required|max:500',
-                'abstract' => 'string',
+                'abstract' => 'required|string',
                 'price' => 'numeric|decimal:2|min:20',
                 'totalPages' => 'integer|min:100',
                 'bookIdentifier' => 'string|unique:book,book_identifier',
@@ -51,7 +51,7 @@ class BookController extends Controller
 
     public function retrieveById(int $id): JsonResponse
     {
-        $book = new BookRepositoryInDatabase()->retrieveOne($id);
+        $book = new BookRepositoryInDatabase()->findById($id);
 
         if (!$book) {
             return response()->json('Book not found', 404);

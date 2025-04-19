@@ -2,17 +2,21 @@
 
 namespace Tests\Feature\EndToEnd;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AuthorApiTest extends TestCase
 {
-    public function test_create_author_endpoint_returns_successful_response()
+    use RefreshDatabase;
+
+    public function testCreateAuthorEndpointReturnsSuccessfulResponse()
     {
         $response = $this->postJson('/api/author', [
             'name' => 'Author Name',
-            'email' => 'author@example.com'
+            'email' => 'author@example.com',
+            'description' => 'Author description'
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 }

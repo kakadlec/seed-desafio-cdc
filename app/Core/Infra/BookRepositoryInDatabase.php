@@ -17,26 +17,31 @@ class BookRepositoryInDatabase
         return DB::table(self::TABLE_NAME)->insertGetId($data->toArray());
     }
 
-    public function retrieveOne(int $id): ?Book
+    public function findById(int $id): ?Book
     {
-        $result = DB::table(self::TABLE_NAME)->find($id)->toArray();
+        $result = DB::table(self::TABLE_NAME)
+        ->where('id', $id)
+        ->first();
 
         if (empty($result)) {
            return null;
         }
 
+        $author = new AuthorRepositoryInDatabase()->findById($result->author);
+        $category = new CategoryRepositoryInDatabase()->findById($result->category);
+
         $book = new Book(
-            $result['author'],
-            $result['category'],
-            $result['title'],
-            $result['summary'],
-            $result['abstract'],
-            $result['price'],
-            $result['total_pages'],
-            $result['book_identifier'],
-            $result['publication_date']
+            $author,
+            $category,
+            $result->title,
+            $result->summary,
+            $result->abstract,
+            floatval($result->price),
+            $result->total_pages,
+            $result->book_identifier,
+            \DateTimeImmutable::createFromFormat('Y-m-d', $result->publication_date)
         );
-        $book->setId($result['id']);
+        $book->setId($result->id);
 
         return $book;
 
