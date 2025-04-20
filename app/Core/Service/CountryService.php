@@ -14,10 +14,14 @@ final readonly class CountryService
     {
         $name = trim($name);
         if ($name === '') {
-            throw new InvalidArgumentException('The CountryModel name cannot be empty.');
+            throw new InvalidArgumentException('The country name cannot be empty.');
         }
 
         return $this->countryRepository->store($name);
     }
 
+    public function retrieveOne(int $id): ?Country
+    {
+        return $this->countryRepository->findById($id);
+    }
 }

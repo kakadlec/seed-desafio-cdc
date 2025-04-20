@@ -7,4 +7,5 @@ use App\Core\Domain\Country;
 interface CountryRepository
 {
     public function store(string $name): Country;
+    public function findById(int $id): ?Country;
 }

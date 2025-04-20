@@ -9,8 +9,15 @@ class CountryRepositoryInDatabase implements CountryRepository
 {
     public function store(string $name): Country
     {
-        $country = CountryModel::create(['name' => $name]);
+        $result = CountryModel::create(['name' => $name]);
 
-        return Country::reconstitute($country->id, $country->name);
+        return Country::reconstitute($result->id, $result->name);
+    }
+
+    public function findById(int $id): ?Country
+    {
+        $result = CountryModel::where('id', $id)->first();
+
+        return $result ? Country::reconstitute($result->id, $result->name) : null;
     }
 }
