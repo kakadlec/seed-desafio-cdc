@@ -22,6 +22,7 @@ class StateFactory extends Factory
 
         return [
             "name" => $fakeBR->state(),
+            "code" => $fakeBR->stateAbbr(),
             "country_id" => Country::factory()
         ];
     }

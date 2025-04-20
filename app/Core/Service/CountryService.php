@@ -10,14 +10,15 @@ final readonly class CountryService
 {
     public function __construct(private CountryRepositoryInDatabase $countryRepository) {}
 
-    public function create(string $name): Country
+    public function create(string $name, string $code): Country
     {
         $name = trim($name);
-        if ($name === '') {
-            throw new InvalidArgumentException('The country name cannot be empty.');
+        $code = strtoupper(trim($code));
+        if ($name === '' || $code === '') {
+            throw new InvalidArgumentException('The country name and code cannot be empty.');
         }
 
-        return $this->countryRepository->store($name);
+        return $this->countryRepository->store($name, $code);
     }
 
     public function retrieveOne(int $id): ?Country

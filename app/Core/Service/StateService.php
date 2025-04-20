@@ -12,11 +12,12 @@ final readonly class StateService
 {
     public function __construct(private StateRepositoryInDatabase $stateRepository) {}
 
-    public function create(string $name, int $countryId): State
+    public function create(string $name, string $code, int $countryId): State
     {
         $name = trim($name);
-        if ($name === '') {
-            throw new InvalidArgumentException('The state name cannot be empty.');
+        $code = strtoupper(trim($code));
+        if ($name === '' || $code === '') {
+            throw new InvalidArgumentException('The state name and code cannot be empty.');
         }
 
         $country = app(CountryService::class)->retrieveOne($countryId);
@@ -24,7 +25,7 @@ final readonly class StateService
             throw new InvalidArgumentException('The country does not exist.');
         }
 
-        return $this->stateRepository->store($name, $countryId);
+        return $this->stateRepository->store($name, $code, $countryId);
     }
 
 }

@@ -10,7 +10,8 @@ class CountryApiTest extends TestCaseWithRefreshDatabase
     public function testCreateCountryEndpointReturnsSuccessfulResponse(): void
     {
         $response = $this->postJson('/api/country', [
-            'name' => 'Brazil'
+            'name' => 'Brazil',
+            'code' => 'BRA',
         ]);
 
         $response->assertStatus(201);

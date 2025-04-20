@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $id
  * @property string $name
+ * @property string $code
  * @property string $country_id
  * @property-read Country $country
  * @method static State create(array $attributes = [])
@@ -22,6 +23,7 @@ class State extends Model
     public $timestamps = false;
     protected $fillable = [
         'name',
+        'code',
         'country_id',
     ];
 

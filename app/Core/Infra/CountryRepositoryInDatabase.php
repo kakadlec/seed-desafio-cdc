@@ -3,21 +3,36 @@
 namespace App\Core\Infra;
 
 use App\Core\Domain\Country;
+use App\Core\Domain\State;
 use App\Models\Country as CountryModel;
 
 class CountryRepositoryInDatabase implements CountryRepository
 {
-    public function store(string $name): Country
+    public function store(string $name, string $code): Country
     {
-        $result = CountryModel::create(['name' => $name]);
+        $result = CountryModel::create(['name' => $name, 'code' => $code]);
 
-        return Country::reconstitute($result->id, $result->name);
+        return Country::reconstitute($result->id, $result->name, $result->code);
     }
 
     public function findById(int $id): ?Country
     {
-        $result = CountryModel::where('id', $id)->first();
+        $result = CountryModel::with('states')->find($id);
 
-        return $result ? Country::reconstitute($result->id, $result->name) : null;
+        if (!$result) {
+            return null;
+        }
+
+        $states = array_map(
+            fn($state) => new State(
+                $state->id,
+                $state->name,
+                $state->code,
+                $state->country_id
+            ),
+            $result->states->all()
+        );
+
+        return Country::reconstitute($result->id, $result->name, $result->code, $states);
     }
 }

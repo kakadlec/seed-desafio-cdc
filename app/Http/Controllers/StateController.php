@@ -18,10 +18,12 @@ class StateController extends Controller
                 'max:100',
                 Rule::unique('states')
                     ->where(fn($query) => $query->where('country_id', $request->country_id)),
-    ],
+            ],
+            'code' => 'required|string|size:2|unique:states,code',
             'country_id' => 'required|int|exists:countries,id',
         ]);
-        $state = $stateService->create($validatedRequest['name'], $validatedRequest['country_id']);
+        $state = $stateService->create($validatedRequest['name'], $validatedRequest['code'],
+            $validatedRequest['country_id']);
         return response()->json(["id" => $state->id, "country_id" => $state->countryId, "state" => $state->name], 201);
     }
 }
