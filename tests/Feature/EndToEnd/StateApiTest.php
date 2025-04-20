@@ -3,6 +3,7 @@
 namespace Feature\EndToEnd;
 
 use App\Models\Country;
+use App\Models\State;
 use Tests\TestCaseWithRefreshDatabase;
 
 class StateApiTest extends TestCaseWithRefreshDatabase
@@ -25,5 +26,17 @@ class StateApiTest extends TestCaseWithRefreshDatabase
             'state' => 'Paraná',
             'country_id' => $country->json('id')
         ]);
+    }
+
+    public function testCreateCountryEndpointReturnsUnsuccessfulResponseWhenDuplicated(): void
+    {
+        $state = State::factory()->create();
+        $response = $this->postJson('/api/state', [
+            'name' =>  $state->name,
+            'country_id' => $state->country_id
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['name' => 'The name has already been taken.']);
     }
 }
