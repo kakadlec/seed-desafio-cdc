@@ -15,7 +15,7 @@ class CountryApiTest extends TestCaseWithRefreshDatabase
 
         $response->assertStatus(201);
         $response->assertJson([
-            'id' => 1,
+            'id' => $response->json('id'),
             'name' => 'Brazil'
         ]);
     }

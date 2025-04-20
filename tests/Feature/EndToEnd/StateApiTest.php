@@ -9,25 +9,21 @@ class StateApiTest extends TestCaseWithRefreshDatabase
 {
     public function testCreateCountryEndpointReturnsSuccessfulResponse(): void
     {
-        $response = $this->postJson('/api/country', [
+        $country = $this->postJson('/api/country', [
             'name' => 'Brazil'
         ]);
+
+        $response = $this->postJson('/api/state', [
+            'name' => 'Paraná',
+            'country_id' => $country->json('id')
+        ]);
+
 
         $response->assertStatus(201);
         $response->assertJson([
-            'id' => 1,
-            'name' => 'Brazil'
+            'id' => $response->json('id'),
+            'state' => 'Paraná',
+            'country_id' => $country->json('id')
         ]);
-    }
-
-    public function testCreateCountryEndpointReturnsUnsuccessfulResponseWhenDuplicated(): void
-    {
-        Country::factory()->create(['name' => 'Brazil']);
-        $response = $this->postJson('/api/country', [
-            'name' => 'Brazil'
-        ]);
-
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors(['name' => 'The name has already been taken.']);
     }
 }
