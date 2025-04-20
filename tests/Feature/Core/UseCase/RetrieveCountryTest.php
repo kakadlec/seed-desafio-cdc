@@ -12,19 +12,19 @@ class RetrieveCountryTest extends TestCaseWithRefreshDatabase
 {
     public function testRetrieveCountryWithoutState(): void
     {
-        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BR']);
+        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BRA']);
 
         $service = app(CountryService::class);
         $result = $service->retrieveOne($country->id);
 
         $this->assertIsInt($result->id);
         $this->assertEquals('Brazil', $result->name);
-        $this->assertEquals('BR', $result->code);
+        $this->assertEquals('BRA', $result->code);
     }
 
     public function testRetrieveCountryWithStates(): void
     {
-        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BR']);
+        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BRA']);
 
         State::factory(1)->for($country)->create();
 
@@ -33,7 +33,7 @@ class RetrieveCountryTest extends TestCaseWithRefreshDatabase
 
         $this->assertIsInt($result->id);
         $this->assertEquals('Brazil', $result->name);
-        $this->assertEquals('BR', $result->code);
+        $this->assertEquals('BRA', $result->code);
         $this->assertCount(1, $result->states);
     }
 }

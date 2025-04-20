@@ -11,7 +11,7 @@ class CreateNewStateTest extends TestCaseWithRefreshDatabase
     public function testCreateNewState(): void
     {
         $countryService = app(CountryService::class);
-        $country = $countryService->create('Brazil', 'BR');
+        $country = $countryService->create('Brazil', 'BRA');
 
         $stateService = app(StateService::class);
         $result = $stateService->create('São Paulo', 'SP', $country->id);

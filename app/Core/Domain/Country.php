@@ -16,6 +16,10 @@ final readonly class Country
 
     public static function reconstitute(int $id, string $name, string $code, array $states = []): self
     {
+        if (strlen($code) !== 3) {
+            throw new \InvalidArgumentException('Country code must be 3 characters long');
+        }
+
         return new self($id, $name, $code, $states);
     }
 }

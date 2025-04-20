@@ -11,7 +11,7 @@ class CreateNewCountryTest extends TestCaseWithRefreshDatabase
     public function testCreateNewCountry(): void
     {
         $service = app(CountryService::class);
-        $result = $service->create('Brazil', 'BR');
+        $result = $service->create('Brazil', 'BRA');
 
         $this->assertIsInt($result->id);
         $this->assertEquals('Brazil', $result->name);

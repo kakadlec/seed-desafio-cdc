@@ -24,7 +24,7 @@ class CountryRepositoryInDatabase implements CountryRepository
         }
 
         $states = array_map(
-            fn($state) => new State(
+            fn($state) => State::reconstitute(
                 $state->id,
                 $state->name,
                 $state->code,
