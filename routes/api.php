@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StateController;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ Route::get('/books', [BookController::class, 'retrieve']);
 Route::get('/product/{id}', [ProductController::class, 'details']);
 Route::post('/country', [CountryController::class, 'store']);
 Route::post('/state', [StateController::class, 'store']);
+Route::post('/order', [OrderController::class, 'store']);
 
 
 
