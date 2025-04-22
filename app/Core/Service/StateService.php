@@ -2,9 +2,7 @@
 
 namespace App\Core\Service;
 
-use App\Core\Domain\Country;
 use App\Core\Domain\State;
-use App\Core\Infra\CountryRepositoryInDatabase;
 use App\Core\Infra\StateRepositoryInDatabase;
 use InvalidArgumentException;
 
@@ -27,5 +25,4 @@ final readonly class StateService
 
         return $this->stateRepository->store($name, $code, $countryId);
     }
-
 }

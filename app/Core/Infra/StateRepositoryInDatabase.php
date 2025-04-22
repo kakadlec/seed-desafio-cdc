@@ -3,6 +3,7 @@
 namespace App\Core\Infra;
 
 use App\Core\Domain\State;
+use App\Core\Infra\Contracts\StateRepository;
 use App\Models\State as StateModel;
 
 class StateRepositoryInDatabase implements StateRepository

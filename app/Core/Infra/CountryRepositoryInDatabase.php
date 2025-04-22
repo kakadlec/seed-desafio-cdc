@@ -4,6 +4,7 @@ namespace App\Core\Infra;
 
 use App\Core\Domain\Country;
 use App\Core\Domain\State;
+use App\Core\Infra\Contracts\CountryRepository;
 use App\Models\Country as CountryModel;
 
 class CountryRepositoryInDatabase implements CountryRepository

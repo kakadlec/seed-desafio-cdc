@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Infra;
+namespace App\Core\Infra\Contracts;
 
 use App\Core\Domain\State;
 
