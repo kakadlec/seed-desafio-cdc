@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Rules;
 
-use App\Rules\Cpf;
+use App\Rules\Documents\Cpf;
 use Tests\TestCase;
 
 class CpfTest extends TestCase
@@ -11,6 +11,16 @@ class CpfTest extends TestCase
     {
         $rule = new Cpf();
         $rule->validate('document', '111.444.777-35', function ($message) {
+            $this->fail($message);
+        });
+
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function testValidateCpfWhenNotLookLikeACpfShouldSkip(): void
+    {
+        $rule = new Cpf();
+        $rule->validate('document', '11.222.333/0001-81', function ($message) {
             $this->fail($message);
         });
 

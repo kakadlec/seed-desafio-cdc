@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Documents;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -15,13 +15,7 @@ class Cnpj implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $digits = preg_replace('/\D/', '', $value);
-
-        if (strlen($digits) === 11) {
-            $fail("The :attribute must be a valid CNPJ");
-        }
-
-        if (!$this->isValidCnpj($digits)) {
+        if (!$this->isValidCnpj($value)) {
             $fail("The :attribute must be a valid CNPJ");
         }
     }

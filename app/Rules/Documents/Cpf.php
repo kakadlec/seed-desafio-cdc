@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Documents;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -15,13 +15,7 @@ class Cpf implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $digits = preg_replace('/\D/', '', $value);
-
-        if (strlen($digits) !== 11) {
-            $fail("The :attribute must be a valid CPF");
-        }
-
-        if (!$this->isValidCpf($digits)) {
+        if (!$this->isValidCpf($value)) {
             $fail("The :attribute must be a valid CPF");
         }
     }
