@@ -2,6 +2,8 @@
 
 namespace Feature\EndToEnd;
 
+use App\Models\Country;
+use App\Models\State;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCaseWithRefreshDatabase;
 
@@ -9,19 +11,7 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
 {
     public static function invalidOrderDataProvider(): array
     {
-        $base = [
-            'email' => 'user@example.com',
-            'name' => 'John',
-            'last_name' => 'Doe',
-            'document' => '11144477735',
-            'address' => '123 Rua',
-            'complement' => 'Apto 10',
-            'city' => 'Curitiba',
-            'country' => 'BRA',
-            'state' => 'PR',
-            'postal_code' => '80000000',
-            'phone' => '41999999999',
-        ];
+        $base = self::validPayload();
 
         return [
             'missing_email' => [
@@ -80,6 +70,14 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
                 array_merge($base, ['phone' => null]),
                 'phone',
             ],
+            'country_not_registered' => [
+                array_merge($base, ['country' => 'XXX']),
+                'country',
+            ],
+            'state_not_registered' => [
+                array_merge($base, ['state' => 'XX']),
+                'state',
+            ],
         ];
     }
 
@@ -90,6 +88,38 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors($expectedInvalidField);
+    }
+
+    public function testFailsIfCountryHasStatesAndStateIsMissing(): void
+    {
+        $country = Country::factory()->create(['code' => 'BRA']);
+        State::factory()->create(['country_id' => $country->id, 'code' => 'SC']);
+
+        $payload = self::validPayload([
+            'country' => $country->code,
+            'state' => null,
+        ]);
+
+        $this->postJson('/api/order', $payload)
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('state');
+    }
+
+    private static function validPayload(array $overrides = []): array
+    {
+        return array_merge([
+            'email' => 'user@example.com',
+            'name' => 'John',
+            'last_name' => 'Doe',
+            'document' => '11144477735',
+            'address' => '123 Rua',
+            'complement' => 'Apto 10',
+            'city' => 'Curitiba',
+            'country' => 'BRA',
+            'state' => 'PR',
+            'postal_code' => '80000000',
+            'phone' => '41999999999',
+        ], $overrides);
     }
 }
 

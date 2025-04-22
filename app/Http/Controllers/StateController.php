@@ -16,9 +16,7 @@ class StateController extends Controller
                 'required',
                 'string',
                 'max:100',
-                Rule::unique('states')
-                    ->where(fn($query) => $query->where('country_id', $request->country_id)),
-            ],
+                Rule::unique('states')->where(fn($query) => $query->where('country_id', $request->country_id))],
             'code' => 'required|string|size:2|unique:states,code',
             'country_id' => 'required|int|exists:countries,id',
         ]);
