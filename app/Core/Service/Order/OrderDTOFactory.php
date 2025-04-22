@@ -10,7 +10,7 @@ use App\Core\ValueObjects\Phone;
 
 class OrderDTOFactory
 {
-    public static function fromValidated(array $data): OrderDto
+    public static function fromValidated(array $data): OrderDTO
     {
         $customer = new Customer(
             firstName: $data['name'],
@@ -28,7 +28,7 @@ class OrderDTOFactory
             )
         );
 
-        return new OrderDto($customer);
+        return new OrderDTO($customer);
     }
 }
 

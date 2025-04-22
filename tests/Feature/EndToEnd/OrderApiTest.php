@@ -9,6 +9,13 @@ use Tests\TestCaseWithRefreshDatabase;
 
 class OrderApiTest extends TestCaseWithRefreshDatabase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BRA']);
+        State::factory()->create(['name' => 'Paraná', 'code' => 'PR', 'country_id' => $country->id]);
+    }
+
     public static function invalidOrderDataProvider(): array
     {
         $base = self::validPayload();
@@ -103,6 +110,12 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
         $this->postJson('/api/order', $payload)
             ->assertStatus(422)
             ->assertJsonValidationErrors('state');
+    }
+
+    public function testValidOrderShouldReturnStatusCreated(): void
+    {
+        $this->postJson('/api/order', self::validPayload())
+            ->assertStatus(201);
     }
 
     private static function validPayload(array $overrides = []): array
