@@ -10,8 +10,7 @@ A lightweight design discipline that keeps each “code unit” (e.g. a class) s
     - **Branches** (e.g. `if`/`else`, `switch`/`case`, loops, ternary) — **1 pt** each
     - **Conditions** (each boolean sub-expression, e.g. `a > b && c < d`) — **1 pt** each
     - **Exception handling** (`try`/`catch`/`finally`) — **1 pt** each
-    - **Internal coupling** (use of another project class) — **1 pt** each
-    - **External coupling** (use of JDK or third-party class) — **0.5 pt** each
+    - **Internal coupling** (use of another project class) — **1 pt** each    
 
 2. ### **Enforce a strict per-class limit**
     - No class may exceed **10 ICP** in total.
