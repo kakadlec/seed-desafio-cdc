@@ -11,10 +11,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Fluent;
 
+// @ICP_TOTAL(14)
 class OrderController extends Controller
 {
     public function store(Request $request, OrderService $orderService): JsonResponse
     {
+        // @ICP(1)
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'name' => 'required|string',
@@ -28,34 +30,38 @@ class OrderController extends Controller
             'complement' => 'nullable|string',
             'phone' => 'required|string',
         ]);
-
+        // @ICP(1)
         $validator->sometimes('state', 'required', function (Fluent $input) {
+            // @ICP(1)
             $country = Country::where('code', $input->country)->with('states')->first();
+
+            // @ICP(1)
             return $country && $country->states->isNotEmpty();
         });
 
+        // @ICP(1)
         $validatedRequest = $validator->validate();
 
+        // @ICP(1)
         try {
+            // @ICP(2)  Factory and class orderDTO returned by the factory
             $orderDTO = OrderDtoFactory::fromValidated($validatedRequest);
+            // @ICP(1) orderService injected by the framework
             $order = $orderService->create($orderDTO);
+        // @ICP(2) Exception + catch
         } catch (\InvalidArgumentException $exception) {
             return response()->json([
                 'error' => 'Invalid input data',
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ], 422);
-        } catch (\DomainException $exception) {
-            return response()->json([
-                'error' => 'Domain error',
-                'message' => $exception->getMessage()
-            ], 400);
-        } catch (\Exception $exception) {
+        // @ICP(3) Exceptions + catch
+        } catch (\DomainException|\Exception) {
             return response()->json([
                 'error' => 'Internal server error',
-                'message' => 'An unexpected error occurred'
+                'message' => 'An unexpected error occurred',
             ], 500);
         }
 
-        return response()->json(["status" => "validated"], 201);
+        return response()->json(['status' => 'validated'], 201);
     }
 }
