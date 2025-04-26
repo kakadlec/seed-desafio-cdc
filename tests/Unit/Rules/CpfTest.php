@@ -5,6 +5,7 @@ namespace Tests\Unit\Rules;
 use App\Rules\Documents\Cpf;
 use Tests\TestCase;
 
+// @ICP_TOTAL(0)
 class CpfTest extends TestCase
 {
     public function testValidateCpf(): void
@@ -17,14 +18,12 @@ class CpfTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testValidateCpfWhenNotLookLikeACpfShouldSkip(): void
+    public function testValidateCpfShouldFailWhenNotACpf(): void
     {
+        $fail = fn($message) => $this->assertEquals('The :attribute must be a valid CPF', $message);
         $rule = new Cpf();
-        $rule->validate('document', '11.222.333/0001-81', function ($message) {
-            $this->fail($message);
-        });
 
-        $this->expectNotToPerformAssertions();
+        $rule->validate('document', '11.222.333/0001-81', $fail);
     }
 
     public function testValidateCpfShouldFailWhenInvalid(): void

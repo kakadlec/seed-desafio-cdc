@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
+// @ICP_TOTAL(0)
 class Cnpj implements ValidationRule
 {
     /**
@@ -22,6 +23,11 @@ class Cnpj implements ValidationRule
 
     private function isValidCnpj(string $cnpj): bool
     {
+        $cnpj = preg_replace('/\D/', '', $cnpj);
+        if (strlen($cnpj) !== 14) {
+            return false;
+        }
+
         if (preg_match('/(\d)\1{13}/', $cnpj)) {
             return false;
         }

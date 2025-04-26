@@ -5,6 +5,7 @@ namespace Tests\Unit\Rules;
 use App\Rules\Documents\Cnpj;
 use Tests\TestCase;
 
+// @ICP_TOTAL(0)
 class CnpjTest extends TestCase
 {
     public function testValidateCnpj(): void
@@ -17,14 +18,12 @@ class CnpjTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testValidateCnpjWhenNotLookLikeACnpjShouldSkip(): void
+    public function testValidateCnpjShouldFailWhenNotACnpj(): void
     {
+        $fail = fn($message) => $this->assertEquals('The :attribute must be a valid CNPJ', $message);
         $rule = new Cnpj();
-        $rule->validate('document', '111.444.777-35', function ($message) {
-            $this->fail($message);
-        });
 
-        $this->expectNotToPerformAssertions();
+        $rule->validate('document', '111.444.777-35', $fail);
     }
 
     public function testValidateCnpjShouldFailWhenInvalid(): void

@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
+// @ICP_TOTAL(0)
 class Cpf implements ValidationRule
 {
     /**
@@ -22,6 +23,10 @@ class Cpf implements ValidationRule
 
     private function isValidCpf(string $cpf): bool
     {
+        $cpf = preg_replace('/\D/', '', $cpf);
+        if (strlen($cpf) !== 11) {
+            return false;
+        }
         if (preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
