@@ -49,10 +49,10 @@ class OrderController extends Controller
             // @ICP(1) orderService injected by the framework
             $order = $orderService->create($orderDTO);
         // @ICP(2) Exception + catch
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             return response()->json([
                 'error' => 'Invalid input data',
-                'message' => $exception->getMessage(),
+                'message' => 'Invalid input data provided',
             ], 422);
         // @ICP(3) Exceptions + catch
         } catch (\DomainException|\Exception) {
