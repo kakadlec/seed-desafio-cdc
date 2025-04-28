@@ -7,15 +7,9 @@ use App\Models\State;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCaseWithRefreshDatabase;
 
+// @ICP_TOTAL(0)
 class OrderApiTest extends TestCaseWithRefreshDatabase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BRA']);
-        State::factory()->create(['name' => 'Paraná', 'code' => 'PR', 'country_id' => $country->id]);
-    }
-
     public static function invalidOrderDataProvider(): array
     {
         $base = self::validPayload();
@@ -85,7 +79,79 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
                 array_merge($base, ['state' => 'XX']),
                 'state',
             ],
+            'missing_order' => [
+                array_merge($base, ['order' => null]),
+                'order',
+            ],
+            'missing_order_total' => [
+                array_merge($base, ['order' => ['total' => null]]),
+                'order.total',
+            ],
+            'missing_order_total_invalid' => [
+                array_merge($base, ['order' => ['total' => 'a hundred']]),
+                'order.total',
+            ],
+            'missing_order_total_less_than_zero' => [
+                array_merge($base, ['order' => ['total' => -100]]),
+                'order.total',
+            ],
+            'missing_order_items' => [
+                array_merge($base, ['order' => [
+                    'total' => 100,
+                    'items' => null
+                ]]),
+                'order.items',
+            ],
+            'missing_order_items_invalid' => [
+                array_merge($base, ['order' => [
+                    'total' => 100,
+                    'items' => 'invalid'
+                ]]),
+                'order.items',
+            ],
+            'missing_order_items_product_id' => [
+                array_merge($base, [
+                    'order' => [
+                        'total' => 100,
+                        'items' => [
+                            ['product_id' => null, 'quantity' => 1]
+                        ]
+                    ]
+                ]),
+                'order.items.0.product_id',
+            ],
+
         ];
+    }
+
+    private static function validPayload(array $overrides = []): array
+    {
+        return array_merge([
+            'email' => 'user@example.com',
+            'name' => 'John',
+            'last_name' => 'Doe',
+            'document' => '11144477735',
+            'address' => '123 Rua',
+            'complement' => 'Apto 10',
+            'city' => 'Curitiba',
+            'country' => 'BRA',
+            'state' => 'PR',
+            'postal_code' => '80000000',
+            'phone' => '41999999999',
+            'order' => [
+                'total' => 100.00,
+                'items' => [
+                    [
+                        'product_id' => 1,
+                        'quantity' => 2,
+                    ],
+                    [
+                        'product_id' => 2,
+                        'quantity' => 1,
+                    ],
+                ]
+            ]
+        ], $overrides);
     }
 
     #[DataProvider('invalidOrderDataProvider')]
@@ -118,21 +184,11 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
             ->assertStatus(201);
     }
 
-    private static function validPayload(array $overrides = []): array
+    protected function setUp(): void
     {
-        return array_merge([
-            'email' => 'user@example.com',
-            'name' => 'John',
-            'last_name' => 'Doe',
-            'document' => '11144477735',
-            'address' => '123 Rua',
-            'complement' => 'Apto 10',
-            'city' => 'Curitiba',
-            'country' => 'BRA',
-            'state' => 'PR',
-            'postal_code' => '80000000',
-            'phone' => '41999999999',
-        ], $overrides);
+        parent::setUp();
+        $country = Country::factory()->create(['name' => 'Brazil', 'code' => 'BRA']);
+        State::factory()->create(['name' => 'Paraná', 'code' => 'PR', 'country_id' => $country->id]);
     }
 }
 

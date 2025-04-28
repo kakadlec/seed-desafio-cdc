@@ -29,6 +29,11 @@ class OrderController extends Controller
             'address' => 'required|string',
             'complement' => 'nullable|string',
             'phone' => 'required|string',
+            'order' => 'required|array',
+            'order.total' => 'required|numeric|gt:0',
+            'order.items' => 'required|array',
+            'order.items.*.product_id' => 'required|integer|exists:book,id',
+            'order.items.*.quantity' => 'required|integer|min:1',
         ]);
         // @ICP(1)
         $validator->sometimes('state', 'required', function (Fluent $input) {
@@ -38,6 +43,10 @@ class OrderController extends Controller
             // @ICP(1)
             return $country && $country->states->isNotEmpty();
         });
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         // @ICP(1)
         $validatedRequest = $validator->validate();
