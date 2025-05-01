@@ -2,12 +2,12 @@
 
 namespace Feature\EndToEnd;
 
+use App\Models\Book;
 use App\Models\Country;
 use App\Models\State;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCaseWithRefreshDatabase;
 
-// @ICP_TOTAL(0)
 class OrderApiTest extends TestCaseWithRefreshDatabase
 {
     public static function invalidOrderDataProvider(): array
@@ -180,8 +180,11 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
 
     public function testValidOrderShouldReturnStatusCreated(): void
     {
+        Book::factory()->create(['id' => 1]);
+        Book::factory()->create(['id' => 2]);
         $this->postJson('/api/order', self::validPayload())
-            ->assertStatus(201);
+            ->assertCreated();
+
     }
 
     protected function setUp(): void
