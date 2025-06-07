@@ -28,10 +28,13 @@ class OrderController extends Controller
             ], 500);
         }
 
-        return response()->json([
+        $response = response()->json([
             'id' => $order->id,
             'total' => $order->total,
             'items' => $order->items,
+            'status' => 'iniciada',
         ], 201);
+        $response->headers->set('Location', url("/api/order/{$order->id}"));
+        return $response;
     }
 }

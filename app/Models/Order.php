@@ -11,8 +11,7 @@ class Order extends Model
     protected $fillable = [
         'email', 'name', 'last_name', 'document', 'country_code', 'state_code',
 
-        'postal_code', 'city', 'address', 'complement', 'phone',
-         'total'
+        'postal_code', 'city', 'address', 'complement', 'phone', 'total', 'status'
     ];
 
     public function items(): HasMany

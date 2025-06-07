@@ -26,6 +26,7 @@ class OrderRepositoryInDatabase implements OrderRepository
             'complement' => $orderData['complement'],
             'phone' => $orderData['phone'],
             'total' => $orderDTO->order['total'] ?? 0,
+            'status' => 'iniciada',
         ]);
 
         foreach ($orderDTO->order['items'] ?? [] as $item) {

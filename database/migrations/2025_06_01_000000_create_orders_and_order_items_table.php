@@ -21,6 +21,7 @@ class CreateOrdersAndOrderItemsTable extends Migration {
             $table->string('complement')->nullable();
             $table->string('phone');
             $table->decimal('total', 10, 2);
+            $table->string('status')->default('iniciada');
             $table->timestamps();
         });
 
