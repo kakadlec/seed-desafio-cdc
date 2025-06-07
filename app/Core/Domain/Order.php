@@ -8,8 +8,8 @@ final class Order
 {
     public function __construct(
         public readonly int $id,
-        public Customer $customer
-    )
-    {
-    }
+        public Customer $customer,
+        public float $total,
+        public array $items
+    ) {}
 }

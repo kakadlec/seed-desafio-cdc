@@ -42,5 +42,28 @@ class OrderRequest extends FormRequest
             $country = Country::where('code', $input->country)->with('states')->first();
             return $country && $country->states->isNotEmpty();
         });
+
+        // Custom validation: order.total must match sum of items
+        $validator->after(function ($validator) {
+            $data = $this->all();
+            if (!isset($data['order']['items']) || !is_array($data['order']['items']) || !isset($data['order']['total'])) {
+                return;
+            }
+            $itemSum = 0;
+            foreach ($data['order']['items'] as $item) {
+                if (!isset($item['product_id'], $item['quantity'])) {
+                    continue;
+                }
+                $book = \App\Models\Book::find($item['product_id']);
+                if (!$book) {
+                    continue;
+                }
+                $itemSum += $book->price * $item['quantity'];
+            }
+            // Compare as float with 2 decimals
+            if (round($itemSum, 2) !== round($data['order']['total'], 2)) {
+                $validator->errors()->add('order.total', 'Order total must match the sum of the items.');
+            }
+        });
     }
 }

@@ -126,6 +126,7 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
 
     private static function validPayload(array $overrides = []): array
     {
+        // Default valid payload now matches the correct total for the default items
         return array_merge([
             'email' => 'user@example.com',
             'name' => 'John',
@@ -139,7 +140,7 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
             'postal_code' => '80000000',
             'phone' => '41999999999',
             'order' => [
-                'total' => 100.00,
+                'total' => 130.00,
                 'items' => [
                     [
                         'product_id' => 1,
@@ -180,11 +181,53 @@ class OrderApiTest extends TestCaseWithRefreshDatabase
 
     public function testValidOrderShouldReturnStatusCreated(): void
     {
-        Book::factory()->create(['id' => 1]);
-        Book::factory()->create(['id' => 2]);
-        $this->postJson('/api/order', self::validPayload())
+        $book1 = Book::factory()->create(['id' => 1, 'price' => 50.00]);
+        $book2 = Book::factory()->create(['id' => 2, 'price' => 30.00]);
+        $this->postJson('/api/order', self::validPayload([
+            'order' => [
+                'total' => 130.00, // (2 * 50) + (1 * 30)
+                'items' => [
+                    [
+                        'product_id' => $book1->id,
+                        'quantity' => 2,
+                    ],
+                    [
+                        'product_id' => $book2->id,
+                        'quantity' => 1,
+                    ],
+                ]
+            ]
+        ]))
             ->assertCreated();
 
+    }
+
+    public function testFailsIfOrderTotalDoesNotMatchSumOfItems(): void
+    {
+        // Create books with known prices
+        $book1 = \App\Models\Book::factory()->create(['id' => 1, 'price' => 50.00]);
+        $book2 = \App\Models\Book::factory()->create(['id' => 2, 'price' => 30.00]);
+
+        $payload = self::validPayload([
+            'order' => [
+                // The correct total would be (2 * 50) + (1 * 30) = 130
+                'total' => 100.00, // Incorrect total
+                'items' => [
+                    [
+                        'product_id' => $book1->id,
+                        'quantity' => 2,
+                    ],
+                    [
+                        'product_id' => $book2->id,
+                        'quantity' => 1,
+                    ],
+                ]
+            ]
+        ]);
+
+        $response = $this->postJson('/api/order', $payload);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('order.total');
     }
 
     protected function setUp(): void

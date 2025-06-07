@@ -16,7 +16,6 @@ class OrderController extends Controller
         try {
             $orderDTO = OrderDTOFactory::fromValidated($validatedRequest);
             $order = $orderService->create($orderDTO);
-
         } catch (\InvalidArgumentException) {
             return response()->json([
                 'error' => 'Invalid input data',
@@ -29,6 +28,10 @@ class OrderController extends Controller
             ], 500);
         }
 
-        return response()->json(['status' => 'validated'], 201);
+        return response()->json([
+            'id' => $order->id,
+            'total' => $order->total,
+            'items' => $order->items,
+        ], 201);
     }
 }

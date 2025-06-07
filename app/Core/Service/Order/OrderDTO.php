@@ -7,7 +7,8 @@ use App\Core\ValueObjects\Customer;
 final readonly class OrderDTO
 {
     public function __construct(
-        public Customer $customer
+        public Customer $customer,
+        public array $order
     ) {}
 
     public function toArrayForPersistence(): array
