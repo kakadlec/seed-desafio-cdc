@@ -39,8 +39,8 @@ class OrderRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->sometimes('state', 'required', function (Fluent $input) {
-            $country = Country::where('code', $input->country)->with('states')->first();
-            return $country && $country->states->isNotEmpty();
+            $country = Country::where('code', $input->country)->first();
+            return $country && $country->states()->exists();
         });
 
         // Custom validation: order.total must match sum of items
