@@ -14,8 +14,7 @@ class StoreCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            'percentual' => 'required|numeric|min:0.01',
-            // O campo 'codigo' e 'validade' não são mais esperados na requisição
+            'percentual' => 'required|numeric|min:0.01',            
         ];
     }
 }
