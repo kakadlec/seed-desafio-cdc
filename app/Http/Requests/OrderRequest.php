@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Fluent;
 use App\Models\Country;
+use App\Rules\Documents\CouponValidator;
 use App\Rules\Documents\DocumentValidator;
 
 class OrderRequest extends FormRequest
@@ -29,7 +30,7 @@ class OrderRequest extends FormRequest
             'complement' => 'nullable|string',
             'phone' => 'required|string',
             'order' => 'required|array',
-            'order.coupon' => 'nullable|string|unique:orders,coupon|exists:coupons,codigo',
+            'order.coupon' => ['nullable', 'string', 'unique:orders,coupon', 'exists:coupons,codigo', new CouponValidator],
             'order.total' => 'required|numeric|gt:0',
             'order.items' => 'required|array',
             'order.items.*.product_id' => 'required|integer|exists:book,id',
