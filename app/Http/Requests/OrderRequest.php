@@ -29,6 +29,7 @@ class OrderRequest extends FormRequest
             'complement' => 'nullable|string',
             'phone' => 'required|string',
             'order' => 'required|array',
+            'order.coupon' => 'nullable|string|unique:orders,coupon|exists:coupons,codigo',
             'order.total' => 'required|numeric|gt:0',
             'order.items' => 'required|array',
             'order.items.*.product_id' => 'required|integer|exists:book,id',

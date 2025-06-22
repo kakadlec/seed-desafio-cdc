@@ -29,6 +29,7 @@ class OrderDTOFactory
         );
 
         return new OrderDTO($customer, [
+            'coupon' => $data['order']['coupon'] ?? null,
             'total' => $data['order']['total'] ?? 0,
             'items' => $data['order']['items'] ?? []
         ]);

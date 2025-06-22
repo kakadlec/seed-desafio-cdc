@@ -10,6 +10,7 @@ final class Order
         public readonly int $id,
         public Customer $customer,
         public float $total,
-        public array $items
+        public array $items,
+        public ?string $coupon,
     ) {}
 }

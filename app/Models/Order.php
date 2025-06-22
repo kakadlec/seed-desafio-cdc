@@ -9,9 +9,20 @@ class Order extends Model
 {
     protected $table = 'orders';
     protected $fillable = [
-        'email', 'name', 'last_name', 'document', 'country_code', 'state_code',
-
-        'postal_code', 'city', 'address', 'complement', 'phone', 'total', 'status'
+        'email',
+        'name', 
+        'last_name', 
+        'document', 
+        'country_code', 
+        'state_code', 
+        'postal_code', 
+        'city', 
+        'address', 
+        'complement', 
+        'phone', 
+        'total', 
+        'status',
+        'coupon',
     ];
 
     public function items(): HasMany

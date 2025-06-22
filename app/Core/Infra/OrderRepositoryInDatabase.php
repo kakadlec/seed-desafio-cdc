@@ -27,6 +27,7 @@ class OrderRepositoryInDatabase implements OrderRepository
             'phone' => $orderData['phone'],
             'total' => $orderDTO->order['total'] ?? 0,
             'status' => 'iniciada',
+            'coupon' => $orderDTO->order['coupon'] ?? null,
         ]);
 
         foreach ($orderDTO->order['items'] ?? [] as $item) {
@@ -40,7 +41,8 @@ class OrderRepositoryInDatabase implements OrderRepository
             id: $order->id,
             customer: $orderDTO->customer,
             total: $orderDTO->order['total'] ?? 0,
-            items: $orderDTO->order['items'] ?? []
+            items: $orderDTO->order['items'] ?? [],
+            coupon: $orderDTO->order['coupon'] ?? null,
         );
     }
 
@@ -72,6 +74,7 @@ class OrderRepositoryInDatabase implements OrderRepository
                 $order->complement,
                 $order->phone
             ),
+            coupon: $order->coupon,
             total: $order->total,
             items: $items
         );

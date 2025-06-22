@@ -30,6 +30,7 @@ class OrderController extends Controller
 
         $response = response()->json([
             'id' => $order->id,
+            'coupon' => $order->coupon,
             'total' => $order->total,
             'items' => $order->items,
             'status' => 'iniciada',

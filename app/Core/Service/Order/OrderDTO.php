@@ -25,6 +25,7 @@ final readonly class OrderDTO
             'address' => $this->customer->address->street,
             'complement' => $this->customer->address->complement,
             'phone' => (string) $this->customer->phone,
+            'coupon' => $this->order['coupon'] ?? null,
         ];
     }
 }
